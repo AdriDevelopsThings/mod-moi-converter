@@ -14,12 +14,12 @@ func getModFilename(moiFilename string) string {
 }
 
 func convertFFMPEG(sourceFilename string, destinationFilename string) error {
-	cmd := exec.Command("ffmpeg", "-i", sourceFilename, "-c", "copy", "-y", destinationFilename)
-	out := new(bytes.Buffer)
-	cmd.Stderr = out
+	cmd := exec.Command("ffmpeg", "-i", sourceFilename, "-c:v", "libx264", "-c:a", "aac", "-y", destinationFilename)
+	stderr := new(bytes.Buffer)
+	cmd.Stderr = stderr
 	err := cmd.Run()
 	if err != nil {
-		fmt.Printf("Error while running command: %v: stdout: %q\n", err, out.String())
+		fmt.Printf("Error while running command: %v: stdout: %q\n", err, stderr.String())
 	}
 	return nil
 }
